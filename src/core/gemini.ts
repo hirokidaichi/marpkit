@@ -6,8 +6,8 @@ import path from "node:path";
 const EMBEDDING_MODEL = "gemini-embedding-001";
 const VISION_MODEL = "gemini-2.0-flash";
 
-// Maximum batch size for batchEmbedContents API (API limit: 250)
-const EMBEDDING_BATCH_SIZE = 250;
+// Maximum batch size for batchEmbedContents API (API limit: 100)
+const EMBEDDING_BATCH_SIZE = 100;
 // Number of parallel batch requests (to maximize throughput within 5M tokens/min limit)
 const PARALLEL_BATCHES = 3;
 
@@ -32,7 +32,7 @@ export class GeminiClient {
     const results: Float32Array[] = new Array(texts.length);
     let completed = 0;
 
-    // Split texts into chunks of EMBEDDING_BATCH_SIZE (max 250 per API call)
+    // Split texts into chunks of EMBEDDING_BATCH_SIZE (max 100 per API call)
     const chunks: { startIndex: number; texts: string[] }[] = [];
     for (let i = 0; i < texts.length; i += EMBEDDING_BATCH_SIZE) {
       chunks.push({
